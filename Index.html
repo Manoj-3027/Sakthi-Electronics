@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakthi Electronics — Next-Gen Tech Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #030d1f;
+    --navy-2: #071428;
+    --navy-3: #0d1f3c;
+    --navy-4: #122545;
+    --neon: #00f5ff;
+    --neon-2: #0af0c8;
+    --neon-dim: rgba(0,245,255,0.12);
+    --neon-glow: 0 0 20px rgba(0,245,255,0.4), 0 0 60px rgba(0,245,255,0.15);
+    --white: #f0f6ff;
+    --gray: #8ba4c0;
+    --gray-2: #3a4f68;
+    --card-bg: rgba(13,31,60,0.85);
+    --card-border: rgba(0,245,255,0.1);
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 3px; }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 5%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(3,13,31,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--neon), var(--neon-2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: var(--neon-glow);
+  }
+
+  .logo-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+
+  .logo-text span { color: var(--neon); }
+
+  nav { display: flex; gap: 2rem; align-items: center; }
+
+  nav a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color var(--transition);
+    position: relative;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--neon);
+    transition: width var(--transition);
+  }
+
+  nav a:hover { color: var(--neon); }
+  nav a:hover::after { width: 100%; }
+
+  .header-actions { display: flex; gap: 1rem; align-items: center; }
+
+  .icon-btn {
+    width: 40px; height: 40px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    font-size: 1.1rem;
+    position: relative;
+  }
+
+  .icon-btn:hover { border-color: var(--neon); color: var(--neon); background: var(--neon-dim); }
+
+  .cart-count {
+    position: absolute;
+    top: -5px; right: -5px;
+    width: 18px; height: 18px;
+    background: var(--neon);
+    color: var(--navy);
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    padding: 10px 22px;
+    background: linear-gradient(135deg, var(--neon), var(--neon-2));
+    color: var(--navy);
+    border: none;
+    border-radius: 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--neon-glow);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    padding: 10px 22px;
+    background: transparent;
+    color: var(--neon);
+    border: 1px solid var(--neon);
+    border-radius: 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-outline:hover { background: var(--neon-dim); box-shadow: var(--neon-glow); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    background: transparent;
+    border: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all var(--transition);
+  }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 70px; left: 0; right: 0;
+    background: rgba(3,13,31,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 1.5rem 5%;
+    z-index: 999;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-size: 1.1rem; color: var(--gray); text-decoration: none; padding: 0.5rem 0; border-bottom: 1px solid var(--card-border); }
+  .mobile-nav a:hover { color: var(--neon); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 5% 80px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 65% 50%, rgba(0,245,255,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(10,240,200,0.04) 0%, transparent 60%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 500px; height: 500px;
+    top: 50%; right: 5%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle, rgba(0,245,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--neon-dim);
+    border: 1px solid rgba(0,245,255,0.2);
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--neon);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--neon);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--neon);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .accent {
+    background: linear-gradient(90deg, var(--neon), var(--neon-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    margin-top: 1.2rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 480px;
+    animation: fadeInUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.6s 0.3s ease both;
+  }
+
+  .hero-stats {
+    margin-top: 3.5rem;
+    display: flex;
+    gap: 2.5rem;
+    animation: fadeInUp 0.6s 0.4s ease both;
+  }
+
+  .hero-stat { display: flex; flex-direction: column; }
+
+  .hero-stat-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--neon);
+    line-height: 1;
+  }
+
+  .hero-stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 2px; }
+
+  .hero-visual {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(500px, 45vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .hero-phone {
+    position: relative;
+    width: 220px;
+    height: 440px;
+    background: linear-gradient(160deg, #1a2a44, #0d1f3c);
+    border-radius: 32px;
+    border: 1px solid rgba(0,245,255,0.2);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06);
+    animation: float 4s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .hero-phone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,245,255,0.12) 0%, transparent 60%);
+  }
+
+  .hero-phone .phone-screen {
+    width: 160px;
+    height: 320px;
+    background: linear-gradient(160deg, rgba(0,245,255,0.05), rgba(0,245,255,0.02));
+    border-radius: 20px;
+    border: 1px solid rgba(0,245,255,0.1);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 60px; height: 22px;
+    background: var(--navy);
+    border-radius: 0 0 14px 14px;
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+  }
+
+  .phone-content {
+    padding: 30px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .phone-line { height: 8px; background: rgba(0,245,255,0.15); border-radius: 4px; }
+  .phone-line.short { width: 60%; }
+  .phone-line.medium { width: 80%; }
+  .phone-img-block {
+    height: 80px;
+    background: linear-gradient(135deg, rgba(0,245,255,0.1), rgba(10,240,200,0.05));
+    border-radius: 10px;
+    border: 1px solid rgba(0,245,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(-50%) translateY(0); }
+    50% { transform: translateY(-50%) translateY(-15px); }
+  }
+
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,245,255,0.08);
+    animation: spin 20s linear infinite;
+  }
+
+  .orbit-ring:nth-child(1) { width: 320px; height: 320px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .orbit-ring:nth-child(2) { width: 420px; height: 420px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-duration: 28s; animation-direction: reverse; }
+
+  .orbit-dot {
+    position: absolute;
+    width: 8px; height: 8px;
+    background: var(--neon);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--neon);
+  }
+
+  @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-bar {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(90deg, var(--neon-dim), rgba(0,245,255,0.06));
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    padding: 14px 0;
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 25s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--neon);
+    flex-shrink: 0;
+  }
+
+  .marquee-item::before { content: '◆'; font-size: 0.5rem; opacity: 0.6; }
+
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTION COMMON ── */
+  section { position: relative; z-index: 1; padding: 80px 5%; }
+
+  .section-header { text-align: center; margin-bottom: 3rem; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+  }
+
+  .section-sub { margin-top: 0.75rem; color: var(--gray); font-size: 1rem; }
+
+  /* ── CATEGORIES ── */
+  .categories { background: linear-gradient(180deg, transparent, rgba(7,20,40,0.5)); }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .cat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .cat-card:hover {
+    border-color: var(--neon);
+    background: rgba(0,245,255,0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,245,255,0.15);
+  }
+
+  .cat-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--neon-dim), rgba(10,240,200,0.08));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    border: 1px solid rgba(0,245,255,0.12);
+    transition: all var(--transition);
+  }
+
+  .cat-card:hover .cat-icon { box-shadow: var(--neon-glow); }
+
+  .cat-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .cat-count { font-size: 0.75rem; color: var(--gray); }
+
+  /* ── FEATURED PRODUCTS ── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition);
+    backdrop-filter: blur(12px);
+    position: relative;
+  }
+
+  .product-card:hover {
+    border-color: rgba(0,245,255,0.25);
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,245,255,0.1);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 14px; left: 14px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .badge-new { background: var(--neon); color: var(--navy); }
+  .badge-hot { background: linear-gradient(90deg, #ff4d6d, #ff6b35); color: #fff; }
+  .badge-sale { background: linear-gradient(90deg, #7c3aed, #c026d3); color: #fff; }
+
+  .product-wishlist {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 34px; height: 34px;
+    background: rgba(3,13,31,0.8);
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-size: 1rem;
+    z-index: 2;
+  }
+
+  .product-wishlist:hover { background: rgba(255,77,109,0.2); border-color: #ff4d6d; }
+  .product-wishlist.active { background: rgba(255,77,109,0.3); border-color: #ff4d6d; }
+
+  .product-image {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(0,245,255,0.04), rgba(10,240,200,0.02));
+    font-size: 5rem;
+    border-bottom: 1px solid var(--card-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(0,245,255,0.06) 0%, transparent 60%);
+  }
+
+  .product-info { padding: 1.2rem; }
+
+  .product-brand {
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--neon);
+    font-weight: 600;
+  }
+
+  .product-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  .product-specs {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .spec-tag {
+    padding: 2px 8px;
+    background: rgba(0,245,255,0.06);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: var(--gray);
+  }
+
+  .product-rating {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stars { color: #fbbf24; font-size: 0.8rem; letter-spacing: 1px; }
+  .rating-num { font-size: 0.8rem; color: var(--gray); }
+
+  .product-footer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-current {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--neon);
+  }
+
+  .price-original {
+    font-size: 0.78rem;
+    color: var(--gray);
+    text-decoration: line-through;
+  }
+
+  .add-to-cart {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--neon), var(--neon-2));
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--navy);
+    transition: all var(--transition);
+    font-weight: 700;
+  }
+
+  .add-to-cart:hover { box-shadow: var(--neon-glow); transform: scale(1.05); }
+
+  /* ── PROMO BANNER ── */
+  .promo-section { padding: 60px 5%; }
+
+  .promo-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .promo-card {
+    border-radius: 24px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .promo-card-1 {
+    background: linear-gradient(135deg, #071428 40%, rgba(0,245,255,0.15));
+    border: 1px solid rgba(0,245,255,0.2);
+  }
+
+  .promo-card-2 {
+    background: linear-gradient(135deg, #1a0533 40%, rgba(192,38,211,0.25));
+    border: 1px solid rgba(192,38,211,0.2);
+  }
+
+  .promo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(0,245,255,0.06) 0%, transparent 60%);
+  }
+
+  .promo-card-2::before { background: radial-gradient(ellipse at 80% 50%, rgba(192,38,211,0.1) 0%, transparent 60%); }
+
+  .promo-emoji {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    font-size: 6rem;
+    opacity: 0.4;
+  }
+
+  .promo-tag {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--neon);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .promo-card-2 .promo-tag { color: #e879f9; }
+
+  .promo-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    position: relative;
+    z-index: 1;
+  }
+
+  .promo-cta {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--neon);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
+    transition: gap var(--transition);
+  }
+
+  .promo-cta:hover { gap: 10px; }
+
+  /* ── BRAND LOGOS ── */
+  .brands-section { padding: 60px 5%; }
+
+  .brands-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .brand-chip {
+    padding: 12px 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray);
+    letter-spacing: 1px;
+    transition: all var(--transition);
+    cursor: default;
+  }
+
+  .brand-chip:hover { color: var(--white); border-color: rgba(0,245,255,0.2); }
+
+  /* ── WHY US ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 1.8rem;
+    transition: all var(--transition);
+    backdrop-filter: blur(12px);
+  }
+
+  .feature-card:hover {
+    border-color: rgba(0,245,255,0.2);
+    transform: translateY(-3px);
+  }
+
+  .feature-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--neon-dim), rgba(10,240,200,0.06));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 1px solid rgba(0,245,255,0.12);
+    margin-bottom: 1rem;
+  }
+
+  .feature-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-desc { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: linear-gradient(180deg, transparent, rgba(7,20,40,0.4)); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .testimonial-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 1.8rem;
+    backdrop-filter: blur(12px);
+    transition: all var(--transition);
+  }
+
+  .testimonial-card:hover { border-color: rgba(0,245,255,0.15); }
+
+  .testimonial-quote { font-size: 2rem; color: var(--neon); opacity: 0.4; line-height: 1; margin-bottom: 0.75rem; }
+
+  .testimonial-text { font-size: 0.9rem; line-height: 1.7; color: var(--gray); }
+
+  .testimonial-author { margin-top: 1.2rem; display: flex; align-items: center; gap: 10px; }
+
+  .author-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    border: 1px solid var(--card-border);
+    background: var(--navy-3);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .author-location { font-size: 0.75rem; color: var(--gray); }
+
+  /* ── NEWSLETTER ── */
+  .newsletter-section {
+    padding: 80px 5%;
+  }
+
+  .newsletter-card {
+    background: linear-gradient(135deg, rgba(0,245,255,0.06), rgba(10,240,200,0.03));
+    border: 1px solid rgba(0,245,255,0.15);
+    border-radius: 28px;
+    padding: 4rem 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,245,255,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .newsletter-card h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    position: relative;
+  }
+
+  .newsletter-card p {
+    margin-top: 0.75rem;
+    color: var(--gray);
+    font-size: 1rem;
+    position: relative;
+  }
+
+  .newsletter-form {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .newsletter-input {
+    padding: 13px 20px;
+    background: rgba(3,13,31,0.8);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    width: min(340px, 100%);
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .newsletter-input:focus { border-color: var(--neon); }
+  .newsletter-input::placeholder { color: var(--gray-2); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: var(--navy-2);
+    border-top: 1px solid var(--card-border);
+    padding: 60px 5% 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand p { margin-top: 1rem; font-size: 0.875rem; color: var(--gray); line-height: 1.7; max-width: 260px; }
+
+  .footer-social { margin-top: 1.5rem; display: flex; gap: 0.75rem; }
+
+  .social-btn {
+    width: 38px; height: 38px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+
+  .social-btn:hover { border-color: var(--neon); color: var(--neon); background: var(--neon-dim); }
+
+  .footer-col h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+
+  .footer-col ul a {
+    font-size: 0.875rem;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .footer-col ul a:hover { color: var(--neon); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--card-border);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 1rem;
+  }
+
+  .footer-bottom p { font-size: 0.8rem; color: var(--gray); }
+
+  .payment-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .payment-badge {
+    padding: 4px 10px;
+    background: var(--navy-3);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: var(--gray);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    padding: 14px 20px;
+    background: var(--card-bg);
+    border: 1px solid rgba(0,245,255,0.2);
+    border-radius: 14px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--white);
+    z-index: 9998;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    max-width: 320px;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { font-size: 1.2rem; }
+
+  /* ── FILTER TABS ── */
+  .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-tab {
+    padding: 8px 18px;
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--gray);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .filter-tab:hover, .filter-tab.active {
+    background: var(--neon-dim);
+    border-color: var(--neon);
+    color: var(--neon);
+  }
+
+  /* ── SEARCH BAR ── */
+  .search-wrapper {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 13px 20px 13px 46px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition);
+    backdrop-filter: blur(12px);
+  }
+
+  .search-input:focus { border-color: var(--neon); }
+  .search-input::placeholder { color: var(--gray-2); }
+
+  .search-icon {
+    position: absolute;
+    left: 15px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+    font-size: 1rem;
+  }
+
+  /* ── MEDIA QUERIES ── */
+  @media (max-width: 1024px) {
+    .hero-visual { width: min(380px, 40vw); }
+    .hero-phone { width: 180px; height: 360px; }
+    .promo-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 768px) {
+    nav, .header-actions .btn-primary { display: none; }
+    .hamburger { display: flex; }
+    .hero-visual { display: none; }
+    .hero { padding-top: 100px; }
+    .hero-stats { gap: 1.5rem; }
+    .promo-emoji { font-size: 4rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats { flex-direction: column; gap: 1rem; }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero-actions { flex-direction: column; }
+    .hero-actions .btn-primary, .hero-actions .btn-outline { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text">Sakthi <span>Electronics</span></div>
+  </a>
+  <nav>
+    <a href="#categories">Categories</a>
+    <a href="#products">Products</a>
+    <a href="#deals">Deals</a>
+    <a href="#brands">Brands</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" title="Search" onclick="document.getElementById('search-input').focus(); document.getElementById('products').scrollIntoView({behavior:'smooth'})">🔍</button>
+    <button class="icon-btn" title="Wishlist">♡</button>
+    <button class="icon-btn" title="Cart" onclick="showToast('🛒 Cart has <span id=cart-badge>0</span> items')">
+      🛒
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <a href="#products" class="btn-primary">Shop Now</a>
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#categories" onclick="closeMobileNav()">Categories</a>
+  <a href="#products" onclick="closeMobileNav()">Products</a>
+  <a href="#deals" onclick="closeMobileNav()">Deals</a>
+  <a href="#brands" onclick="closeMobileNav()">Brands</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">✦ New Arrivals 2025</div>
+    <h1>
+      Future Tech,<br>
+      <span class="accent">Premium</span><br>
+      Selection
+    </h1>
+    <p>Discover the latest smartphones, laptops, audio gear, and smart home devices — curated for those who demand only the best.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">⚡ Explore Products</a>
+      <a href="#deals" class="btn-outline">🔥 Hot Deals</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">500+</div>
+        <div class="hero-stat-label">Products</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">50K+</div>
+        <div class="hero-stat-label">Happy Customers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">15+</div>
+        <div class="hero-stat-label">Premium Brands</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="orbit-ring">
+      <div class="orbit-dot" style="top:-4px;left:50%;transform:translateX(-50%)"></div>
+    </div>
+    <div class="orbit-ring">
+      <div class="orbit-dot" style="bottom:-4px;left:50%;transform:translateX(-50%)"></div>
+    </div>
+    <div class="hero-phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-content">
+          <div class="phone-img-block">📱</div>
+          <div class="phone-line"></div>
+          <div class="phone-line short"></div>
+          <div class="phone-line medium"></div>
+          <div class="phone-line short"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Free Shipping Over ₹999</span>
+    <span class="marquee-item">Apple iPhone 16 Pro — Now in Stock</span>
+    <span class="marquee-item">EMI Available on All Orders</span>
+    <span class="marquee-item">Samsung Galaxy S25 — Pre-order Open</span>
+    <span class="marquee-item">1-Year Warranty on All Products</span>
+    <span class="marquee-item">24/7 Customer Support</span>
+    <span class="marquee-item">Sony WH-1000XM6 — Just Arrived</span>
+    <span class="marquee-item">Upto 40% Off on Laptops</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item">Free Shipping Over ₹999</span>
+    <span class="marquee-item">Apple iPhone 16 Pro — Now in Stock</span>
+    <span class="marquee-item">EMI Available on All Orders</span>
+    <span class="marquee-item">Samsung Galaxy S25 — Pre-order Open</span>
+    <span class="marquee-item">1-Year Warranty on All Products</span>
+    <span class="marquee-item">24/7 Customer Support</span>
+    <span class="marquee-item">Sony WH-1000XM6 — Just Arrived</span>
+    <span class="marquee-item">Upto 40% Off on Laptops</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="section-header">
+    <div class="section-tag">✦ Shop By Category</div>
+    <h2 class="section-title">Browse Collections</h2>
+    <p class="section-sub">Find exactly what you need across our wide product range</p>
+  </div>
+  <div class="cat-grid">
+    <a href="#products" class="cat-card" onclick="filterProducts('Smartphones')">
+      <div class="cat-icon">📱</div>
+      <div class="cat-name">Smartphones</div>
+      <div class="cat-count">124 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Laptops')">
+      <div class="cat-icon">💻</div>
+      <div class="cat-name">Laptops</div>
+      <div class="cat-count">86 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Audio')">
+      <div class="cat-icon">🎧</div>
+      <div class="cat-name">Audio</div>
+      <div class="cat-count">73 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Tablets')">
+      <div class="cat-icon">📟</div>
+      <div class="cat-name">Tablets</div>
+      <div class="cat-count">45 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Cameras')">
+      <div class="cat-icon">📷</div>
+      <div class="cat-name">Cameras</div>
+      <div class="cat-count">58 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Smart Home')">
+      <div class="cat-icon">🏠</div>
+      <div class="cat-name">Smart Home</div>
+      <div class="cat-count">92 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Gaming')">
+      <div class="cat-icon">🎮</div>
+      <div class="cat-name">Gaming</div>
+      <div class="cat-count">110 items</div>
+    </a>
+    <a href="#products" class="cat-card" onclick="filterProducts('Wearables')">
+      <div class="cat-icon">⌚</div>
+      <div class="cat-name">Wearables</div>
+      <div class="cat-count">67 items</div>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section id="products" style="padding-top:40px">
+  <div class="section-header">
+    <div class="section-tag">✦ Featured</div>
+    <h2 class="section-title">Top Products</h2>
+    <p class="section-sub">Handpicked selections from our best-selling lineup</p>
+  </div>
+
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="search-input" placeholder="Search products..." oninput="searchProducts(this.value)">
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilter(this,'All')">All</button>
+    <button class="filter-tab" onclick="setFilter(this,'Smartphones')">📱 Smartphones</button>
+    <button class="filter-tab" onclick="setFilter(this,'Laptops')">💻 Laptops</button>
+    <button class="filter-tab" onclick="setFilter(this,'Audio')">🎧 Audio</button>
+    <button class="filter-tab" onclick="setFilter(this,'Gaming')">🎮 Gaming</button>
+    <button class="filter-tab" onclick="setFilter(this,'Wearables')">⌚ Wearables</button>
+    <button class="filter-tab" onclick="setFilter(this,'Cameras')">📷 Cameras</button>
+  </div>
+
+  <div class="products-grid" id="products-grid"></div>
+</section>
+
+<!-- PROMO BANNER -->
+<section class="promo-section" id="deals">
+  <div class="promo-grid">
+    <div class="promo-card promo-card-1">
+      <div class="promo-emoji">💻</div>
+      <div class="promo-tag">✦ Limited Time</div>
+      <h3 class="promo-title">Up to 40% Off<br>on Premium Laptops</h3>
+      <a href="#products" class="promo-cta" onclick="setFilterByName('Laptops')">Shop Laptops →</a>
+    </div>
+    <div class="promo-card promo-card-2">
+      <div class="promo-emoji">🎧</div>
+      <div class="promo-tag" style="color:#e879f9">✦ Flash Sale</div>
+      <h3 class="promo-title">Audio Gear<br>Starts ₹999</h3>
+      <a href="#products" class="promo-cta" style="color:#e879f9" onclick="setFilterByName('Audio')">Shop Audio →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section class="brands-section" id="brands">
+  <div class="section-header">
+    <div class="section-tag">✦ Our Brands</div>
+    <h2 class="section-title">Authorized Dealers</h2>
+    <p class="section-sub">We carry only genuine products from top global brands</p>
+  </div>
+  <div class="brands-grid">
+    <div class="brand-chip">Apple</div>
+    <div class="brand-chip">Samsung</div>
+    <div class="brand-chip">Sony</div>
+    <div class="brand-chip">OnePlus</div>
+    <div class="brand-chip">Dell</div>
+    <div class="brand-chip">Lenovo</div>
+    <div class="brand-chip">Bose</div>
+    <div class="brand-chip">Xiaomi</div>
+    <div class="brand-chip">HP</div>
+    <div class="brand-chip">Asus</div>
+    <div class="brand-chip">JBL</div>
+    <div class="brand-chip">Canon</div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section>
+  <div class="section-header">
+    <div class="section-tag">✦ Why Choose Us</div>
+    <h2 class="section-title">The Sakthi Promise</h2>
+    <p class="section-sub">Every purchase backed by our commitment to quality and service</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🚚</div>
+      <div class="feature-title">Express Delivery</div>
+      <div class="feature-desc">Same-day delivery in Chennai. Pan-India shipping in 2–3 business days. Free over ₹999.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">1-Year Warranty</div>
+      <div class="feature-desc">All products come with manufacturer warranty. Extended plans available.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">↩️</div>
+      <div class="feature-title">Easy Returns</div>
+      <div class="feature-desc">7-day hassle-free return policy. No questions asked on defective items.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💳</div>
+      <div class="feature-title">Easy EMI</div>
+      <div class="feature-desc">0% EMI on all major bank cards. No-cost options on orders above ₹5,000.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✅</div>
+      <div class="feature-title">100% Genuine</div>
+      <div class="feature-desc">Every product is sourced directly from authorized distributors and brands.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">24/7 Support</div>
+      <div class="feature-desc">Expert tech advisors available round-the-clock via chat, call, or email.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header">
+    <div class="section-tag">✦ Customer Love</div>
+    <h2 class="section-title">What People Say</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">Ordered the iPhone 16 Pro on a Tuesday, received it by Wednesday evening. Packaging was immaculate, product 100% genuine. Best electronics store in Chennai!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👨</div>
+        <div>
+          <div class="author-name">Arjun Krishnamurthy</div>
+          <div class="author-location">⭐⭐⭐⭐⭐ &middot; Chennai</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">The staff helped me choose the perfect laptop for my college needs. Great advice, zero pressure, and the price was unbeatable. Highly recommend Sakthi Electronics!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👩</div>
+        <div>
+          <div class="author-name">Priya Venkataraman</div>
+          <div class="author-location">⭐⭐⭐⭐⭐ &middot; Coimbatore</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">The Sony WH-1000XM5 I bought here came sealed and at a better price than Amazon. Smooth online experience and the chat support team was super responsive.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👨</div>
+        <div>
+          <div class="author-name">Karthik Rajan</div>
+          <div class="author-location">⭐⭐⭐⭐⭐ &middot; Madurai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" id="contact">
+  <div class="newsletter-card">
+    <div class="section-tag">✦ Stay Updated</div>
+    <h2>Get Exclusive Deals & Tech News</h2>
+    <p>Subscribe to get early access to sales, new arrivals, and special offers.</p>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="Enter your email address" id="newsletter-email">
+      <button class="btn-primary" onclick="subscribeNewsletter()">📩 Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="text-decoration:none">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">Sakthi <span>Electronics</span></div>
+      </a>
+      <p>Tamil Nadu's trusted destination for premium electronics. Authorized dealers for 15+ global brands since 2008.</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#" title="Facebook">📘</a>
+        <a class="social-btn" href="#" title="Instagram">📷</a>
+        <a class="social-btn" href="#" title="Twitter">🐦</a>
+        <a class="social-btn" href="#" title="YouTube">▶️</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#categories">Categories</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#deals">Deals</a></li>
+        <li><a href="#brands">Brands</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Customer Care</h4>
+      <ul>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Return & Refund</a></li>
+        <li><a href="#">Warranty</a></li>
+        <li><a href="#">EMI Plans</a></li>
+        <li><a href="#">Help Center</a></li>
+      </ul>
+    </div>
+    <div class="footer-col" id="contact">
+      <h4>Contact Us</h4>
+      <ul>
+        <li><a href="tel:+919876543210">📞 +91 98765 43210</a></li>
+        <li><a href="mailto:support@sakthielectronics.in">📧 support@sakthielectronics.in</a></li>
+        <li><a href="#">📍 42, Anna Salai, Chennai, TN 600002</a></li>
+        <li><a href="#">🕐 Mon–Sat: 9AM – 9PM</a></li>
+        <li><a href="#">🌐 sakthielectronics.in</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Sakthi Electronics. All rights reserved. Made in Tamil Nadu 🇮🇳</p>
+    <div class="payment-badges">
+      <span class="payment-badge">UPI</span>
+      <span class="payment-badge">Visa</span>
+      <span class="payment-badge">Mastercard</span>
+      <span class="payment-badge">NetBanking</span>
+      <span class="payment-badge">COD</span>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">✅</span>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+const products = [
+  { id:1, name:'iPhone 16 Pro Max', brand:'Apple', category:'Smartphones', price:134900, original:149900, emoji:'📱', specs:['256GB','Titanium','A18 Pro'], badge:'new', rating:4.9, reviews:2341 },
+  { id:2, name:'Galaxy S25 Ultra', brand:'Samsung', category:'Smartphones', price:124999, original:134999, emoji:'📱', specs:['512GB','Snapdragon 8 Elite','S Pen'], badge:'hot', rating:4.8, reviews:1876 },
+  { id:3, name:'MacBook Pro 14"', brand:'Apple', category:'Laptops', price:189900, original:219900, emoji:'💻', specs:['M4 Pro','18GB RAM','512GB SSD'], badge:'new', rating:4.9, reviews:987 },
+  { id:4, name:'Sony WH-1000XM6', brand:'Sony', category:'Audio', price:29990, original:34990, emoji:'🎧', specs:['ANC','30hr Battery','LDAC'], badge:'new', rating:4.8, reviews:3412 },
+  { id:5, name:'iPad Pro M4', brand:'Apple', category:'Tablets', price:89900, original:99900, emoji:'📟', specs:['11"','256GB','Wi-Fi+5G'], badge:'sale', rating:4.7, reviews:654 },
+  { id:6, name:'Dell XPS 15', brand:'Dell', category:'Laptops', price:149999, original:169999, emoji:'💻', specs:['Intel i9','32GB RAM','1TB SSD'], badge:'hot', rating:4.6, reviews:1123 },
+  { id:7, name:'PlayStation 5 Slim', brand:'Sony', category:'Gaming', price:54990, original:59990, emoji:'🎮', specs:['1TB SSD','4K 120fps','DualSense'], badge:'hot', rating:4.9, reviews:5678 },
+  { id:8, name:'Apple Watch Ultra 2', brand:'Apple', category:'Wearables', price:89900, original:94900, emoji:'⌚', specs:['49mm Titanium','GPS','Precision Dual-Frequency'], badge:'new', rating:4.8, reviews:876 },
+  { id:9, name:'OnePlus 13', brand:'OnePlus', category:'Smartphones', price:69999, original:79999, emoji:'📱', specs:['Snapdragon 8 Elite','512GB','100W Charging'], badge:'sale', rating:4.7, reviews:2109 },
+  { id:10, name:'Bose QuietComfort 45', brand:'Bose', category:'Audio', price:24990, original:31990, emoji:'🎧', specs:['ANC','24hr Battery','Bluetooth 5.1'], badge:'sale', rating:4.7, reviews:2876 },
+  { id:11, name:'Canon EOS R8', brand:'Canon', category:'Cameras', price:139900, original:159900, emoji:'📷', specs:['24.2MP','4K 60fps','IBIS'], badge:'new', rating:4.8, reviews:543 },
+  { id:12, name:'Lenovo Legion 7i', brand:'Lenovo', category:'Laptops', price:139999, original:154999, emoji:'💻', specs:['Intel i9 HX','RTX 4080','32GB DDR5'], badge:'hot', rating:4.7, reviews:789 },
+];
+
+let cartCount = 0;
+let wishlist = new Set();
+let currentFilter = 'All';
+let searchQuery = '';
+
+function formatPrice(n) {
+  return '₹' + n.toLocaleString('en-IN');
+}
+
+function renderStars(r) {
+  const full = Math.floor(r);
+  const half = r % 1 >= 0.5;
+  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half?1:0));
+}
+
+function renderProducts() {
+  const grid = document.getElementById('products-grid');
+  const filtered = products.filter(p => {
+    const matchFilter = currentFilter === 'All' || p.category === currentFilter;
+    const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.brand.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gray)">
+      <div style="font-size:3rem;margin-bottom:1rem">🔍</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.2rem">No products found</div>
+      <div style="font-size:0.875rem;margin-top:0.5rem">Try a different search or filter</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" id="pc-${p.id}">
+      ${p.badge ? `<div class="product-badge badge-${p.badge}">${p.badge}</div>` : ''}
+      <div class="product-wishlist ${wishlist.has(p.id)?'active':''}" onclick="toggleWishlist(${p.id})" title="Wishlist">
+        ${wishlist.has(p.id) ? '❤️' : '♡'}
+      </div>
+      <div class="product-image">${p.emoji}</div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-specs">
+          ${p.specs.map(s => `<span class="spec-tag">${s}</span>`).join('')}
+        </div>
+        <div class="product-rating">
+          <span class="stars">${'★'.repeat(Math.floor(p.rating))}${ p.rating % 1 >= 0.5 ? '½' : ''}</span>
+          <span class="rating-num">${p.rating} (${p.reviews.toLocaleString()})</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">
+            <span class="price-current">${formatPrice(p.price)}</span>
+            <span class="price-original">${formatPrice(p.original)}</span>
+          </div>
+          <button class="add-to-cart" onclick="addToCart(${p.id})" title="Add to Cart">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  cartCount++;
+  document.getElementById('cart-count').textContent = cartCount;
+  showToast(`✅ ${p.name} added to cart`);
+}
+
+function toggleWishlist(id) {
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    showToast('💔 Removed from wishlist');
+  } else {
+    wishlist.add(id);
+    const p = products.find(x => x.id === id);
+    showToast(`❤️ ${p.name} added to wishlist`);
+  }
+  renderProducts();
+}
+
+function setFilter(btn, cat) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = cat;
+  renderProducts();
+}
+
+function setFilterByName(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(b => {
+    if (b.textContent.includes(cat)) b.classList.add('active');
+    else b.classList.remove('active');
+  });
+  setTimeout(() => {
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    renderProducts();
+  }, 100);
+}
+
+function filterProducts(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(cat) || (cat==='All' && b.textContent==='All'));
+  });
+  setTimeout(renderProducts, 50);
+}
+
+function searchProducts(q) {
+  searchQuery = q;
+  renderProducts();
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function subscribeNewsletter() {
+  const email = document.getElementById('newsletter-email').value.trim();
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ Please enter a valid email address');
+    return;
+  }
+  document.getElementById('newsletter-email').value = '';
+  showToast('🎉 Subscribed successfully! Welcome to Sakthi fam.');
+}
+
+function toggleMobileNav() { document.getElementById('mobile-nav').classList.toggle('open'); }
+function closeMobileNav() { document.getElementById('mobile-nav').classList.remove('open'); }
+
+// Close mobile nav on outside click
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('mobile-nav');
+  const hamburger = document.querySelector('.hamburger');
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+    nav.classList.remove('open');
+  }
+});
+
+// Scroll-based header shadow
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 50) {
+    header.style.boxShadow = '0 4px 40px rgba(0,0,0,0.5)';
+  } else {
+    header.style.boxShadow = 'none';
+  }
+});
+
+// Init
+renderProducts();
+</script>
+</body>
+</html>
